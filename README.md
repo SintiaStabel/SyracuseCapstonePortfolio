@@ -1,5 +1,9 @@
-###Master of Science in Applied Data Science – Capstone Portfolio
-####Introduction:
+Master of Science in Applied Data Science – Capstone Portfolio
+
+Introduction:
+
 This portfolio provides a comprehensive overview of how the learning objectives outlined in the Master's in Applied Data Science program at Syracuse University have been not only met but mastered. Within the following sections, I will present detailed evidence and examples from the various courses I have completed, illustrating how I have not only acquired essential data science skills but also how I have honed these skills to apply them across a diverse range of problems and real-world use cases.
+
 Upon reaching the culmination of this program, I am confident in my ability to adeptly collect, manage, analyze, and interpret data to provide answers to an extensive array of business inquiries and real-world challenges, with data serving as my primary tool. Within this portfolio, I aim to showcase my proficiency in implementing data science techniques to drive strategic decision-making through predictive modeling. Additionally, I will illustrate my capacity to convey my findings effectively through data visualizations, adapting my communication style to cater to diverse audiences.
+
 Throughout this portfolio, I will provide compelling evidence of my extensive use of quantitative analytics, encompassing Statistical, Machine Learning, and Natural Language Processing (NLP) techniques for tasks such as predictive analytics, risk assessment, and classification. Furthermore, I will highlight the proficiency I have gained in various big data management and automation tools, including Tableau, PowerBI, as well as popular programming languages and libraries such as SQL, R, and Python (including Pandas, NumPy, Matplotlib, Scikit-learn, NLTK, TensorFlow, PyTorch, and Spark), showcasing the breadth and depth of my technical skills acquired during this program.
