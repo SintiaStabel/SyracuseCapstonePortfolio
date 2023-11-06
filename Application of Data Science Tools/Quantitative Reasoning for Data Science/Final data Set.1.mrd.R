@@ -1,0 +1,386 @@
+#IST772 Final Exam 12-20-2022
+#Sintia Stabel 
+
+```{r}
+#load(allSchoolsReportStatus)
+#View(districts)
+#View(usVaccines)
+
+#library(ggplot2)
+#library (plotly)
+#library(dplyr)
+
+USVaccines <- as.data.frame.matrix(usVaccines)
+str(USVaccines)
+
+head(usVaccines)
+DF <- USVaccines
+DF <- cbind(year,USVaccines)
+
+year <- c(1980:2017)
+#library(tidyverse)
+DF
+head(DF)
+
+
+boxplot(DF$Pol3 ~ DF$year)
+boxplot(DF$year ~ DF$HepB_BD)
+boxplot(DF$year ~ DF$Pol3)
+
+ml(year ~ DF)
+
+plot(DF$year)
+
+boxplot( DF$year ~ DF$MCV1, data=DF, 
+         main="WHO - US Vaccination Rates by Year", 
+         xlab="Vaccines", col="seagreen3")
+
+plot(DF$year, DF$DTP1)
+plot(DF$year,DF$HepB_BD)
+plot(DF$year, DF$MCV1)
+plot(DF$year, DF$Pol3)
+plot(DF$year, DF$Hib3)
+plot(DF$year, DF$MCV1)
+
+library(ggplot2)
+
+AllVacs <-ggplot(DF,aes(x= DTP1+ HepB_BD+MCV1 + Pol3+ Hib3 + MCV1, y = year))+ 
+  geom_point()+geom_smooth(method="lm")
+  #ggtitle("Premium Annual Cost against Multiple Factors")
+  #+labs(y="Premium Price",x="Significant Variables")
+  
+AllVacs
+
+#####################
+
+# Transforming columns in distritct from percent without to percent with vaccines
+
+head(Dist)
+Dist <- districts
+
+PctDTP <- abs(Dist$WithoutDTP - 100)
+PctPolio <- abs(Dist$WithoutPolio - 100)
+PctMMR <- abs(Dist$WithoutMMR - 100)
+PctHepB <- abs(Dist$WithoutHepB - 100)
+
+# adding new columns and dropping the percent without ones
+
+newDist <- cbind(Dist,PctDTP,PctPolio,PctMMR,PctHepB)
+
+newDist <- subset(newDist, select = -c(2:5))
+
+head(newDist)
+AllSchools <- allSchoolsReportStatus
+tail(AllSchools)
+
+#############
+
+install.packages('writexl')
+library(writexl)
+
+write_xlsx(newDist, 'C:\\Users\\sinti\\Syracuse University\\IST772\\newDist.xlsx')
+write_xlsx(districts, 'C:\\Users\\sinti\\Syracuse University\\IST772\\districtst.xlsx')
+write_xlsx(DF, 'C:\\Users\\sinti\\Syracuse University\\IST772\\DF.xlsx')
+write_xlsx(AllSchools, 'C:\\Users\\sinti\\Syracuse University\\IST772\\AllSchools.xlsx')
+####################
+
+# QUESTION 1:
+#How have U.S. vaccination rates varied over time? 
+# a Are vaccination rates increasing or decreasing? 
+# b Which vaccination has the highest rate at the conclusion of the time series? 
+# c Which vaccination has the lowest rate at the conclusion of the time series?
+# d Which vaccine has the greatest volatility? 
+  
+# According to the World health organization data set, which tracks the vaccination 
+# rates from 1980 through 2017, The US vaccination rates# show a clear upwards trend 
+# for HepB_DB and DTP1, while Pol3, Hib3 and MCV1 have remained
+# mostly unchanged for about the last two thirds of the same time period. Looking at the 
+# side by side line plots we also observe a significant drop in all vacinations around 1987 
+# through early 1990s. Scatterplots of DTP1, POl3 and MCV1 also confirm the same observations.
+
+# Our time series plot also shows that DTP1 has the highest rate at the end of the series, while
+# HepB_BD has the lowest. The Summary function confirms that the DTP1 has the top rate
+# and that HepB_BD has the lowest rate at the third and first quartiles respectively.
+
+# When we remove the trend component of the time series, and plot the diff function,
+# we see that Hib3 is the vaccine with the widest variance
+#the vaccine with the highest volatility is Hib3. 
+
+summary(usVacs)
+head(usVacs)
+ usVacs <-DF
+?summary
+plot.ts(justVacs,
+        main = "US Vaccination Rates 1980-2017")
+scatterplot(usVacs$year, usVacs$MCV1,
+     main = "MCV1 Vaccination Rate")
+     
+scatterplot(usVacs$year, usVacs$Pol3,
+     main = "Polio Vaccination Rate")
+plot(usVacs$year, usVacs$MCV1)
+
+# removing the year
+justVacs <- subset(usVacs, select =-c(1))
+head(justVacs)
+diff(justVacs)
+
+# plotting volatility of the difference
+plot(diff(usVaccines),
+     main=" Volatility US Vaccination Rates 1980-2017")
+   
+plot(diff_air,
+     main="Difference in Air Passenger Counts over Time",
+     ylab = "Passenger Count Change")
+
+
+
+
+#######################################################
+#2.	What proportion of public schools reported vaccination data? 
+# What proportion of private schools reported vaccination data?
+# Was there any credible difference in overall reporting proportions
+# between public and private schools? 
+library(tidyverse)
+library(readxl)
+allSchools <- read_excel('C:\\Users\\sinti\\Syracuse University\\IST772\\AllSchools.xlsx')
+
+#proportion of public schools who reported vaccination
+
+pubReported <- allSchools %>% filter(pubpriv == 'PUBLIC', reported == "Y")
+
+privReported <- allSchools %>% filter(pubpriv == 'PRIVATE', reported == 'Y')
+
+#Percentage of Private schools that reported out of total reporting schools
+print(sum(privReported$zero_one))/(sum(allschools$reported))
+
+#Percentage of Public schools that reported out of total reporting schools
+print(sum(pubReported$zero_one))/(sum(allschools$reported))
+
+print(sum(allschools$reported))
+str(allschools)
+
+head(allSchoolsReportStatus)
+
+allSchoolsReportStatus$isPublic <- as.numeric(allSchoolsReportStatus$pubpriv=="PUBLIC")
+
+allSchoolsReportStatus$isReported <- as.numeric(allSchoolsReportStatus$reported=="Y")
+
+t_test <- t.test(allSchoolsReportStatus$isReported[allSchoolsReportStatus$isPub==1],
+                 
+                 allSchoolsReportStatus$isReported[allSchoolsReportStatus$isPublic==0])
+
+t_test
+
+library(BEST) 
+library(rjags)
+
+
+# Unable to run BESTmcmc
+
+MCMC_test <- BESTmcmc(allSchoolsReportStatus$isReported[allSchoolsReportStatus$isPub==1],
+                 
+                 allSchoolsReportStatus$isReported[allSchoolsReportStatus$isPublic==0])
+
+plot(MCMC_test) 
+
+
+
+# Question 3
+#	What are 2013 vaccination rates for individual vaccines (i.e., DOT, Polio, MMR, and HepB) 
+# in California public schools?  How do these rates for individual vaccines
+#in California districts compare with overall US vaccination rates
+#(make an informal comparison to the final observations in the time series)? 
+  
+head(newDist) # data inspection
+head(usVacs) # data inspection
+
+# California District Data
+vacc2013 <- newDist[,10:13] # sub-setting the data to have only the columns with vaccination rates
+str(vacc2013) # 700 observations we know from the description the data set is for the year 2013
+
+mean(vacc2013$PctDTP) # mean DTP
+mean(vacc2013$PctHepB)# mean HepB
+mean(vacc2013$PctPolio)# mean Polio
+mean(vacc2013$PctMMR) # mean MMR
+
+
+boxplot(vacc2013,
+        main = 'California Districts Vaccination Rates') # rates for all 4 vaccines
+summary(vacc2013)
+
+cat('\014')
+#WHO US data
+usVacs_2013 <- usVacs %>% filter(usVacs$year == "2013") # WHO US rates for vaccines for year 2013
+usVacs_2013 # results of  WHO US rates for vaccines for year 2013
+str(usVacs) # 38 obs
+usVacs_2017 <- usVacs[38,]
+
+# The 2013 vaccination rates for individual vaccines for California's districts are 
+#are displayed in the box plot below. We can see that they range from low 20s to 100% across the districts
+# To compare California districts' rates to the World Health Organization's USA rates for the same year,
+#the average rates for all 4 vaccines were calculated. 
+# 
+# California districts' average rate for DTP1 is 89.88% compared to 98% from the WHO.
+# California districts' average rate for HebB is 92.36% vs 74% for WHO. California's Polio rate is
+# 90.31% compared to 93%, and finally California's average rate for the MMR vaccine 
+# is 89.88% compared to 92% reported from the WHO. California districts' percentage rates are
+# overall slightly lower than the WHO's, except for HebB which is about 22% higher. 
+
+# By looking at the last year of the time series the WHO
+# reported the following rates: DPT1 98%, HebB 64%, Polio 94%, and 92% for MMR. These results are at
+# about he same levels reported for the year 2013, with the exception of HepB, which increased from 64%
+# to 74%
+
+##################################
+
+library(tidyverse)
+
+# Question 4
+#	Among districts, how are the vaccination rates for individual vaccines related? In other words,
+# if students are missing one vaccine are they missing all of the others?
+
+# sub-setting for complete reporting only
+
+str(newDist)
+Districts <- newDist %>% filter(DistrictComplete == 'TRUE')
+str(Districts)
+
+# sub-setting for relevant numerical vars
+RevDistrictsVars <- Districts %>% select(PctUpToDate, PctUpToDate, PctBeliefExempt, 
+                                         PctChildPoverty, PctFamilyPoverty,
+                                         PctFreeMeal,PctDTP, PctHepB, PctMMR, PctPolio)
+
+str(RevDistrictsVars)
+cor(RevDistrictsVars)
+
+
+#TALK ABOUT FAMILY POVERTY
+
+# By running a correlations test for the districts that have completed their vaccination reports, while also
+#sub-setting the data by the relevant numerical variables we can now determine how each of these variables are
+# related to one another. 
+# Looking at the PctBelieveExempt variable, we can tell the percentage of students not vaccinated due to believes,
+# has a strong inverse correlation of -.74  to the PctUpToDate variable. This is expected as we can assume these students
+# have not received vaccinations accross the board and therefore move int he opposite direction of the vaccinated ones
+# Non surprising, the same strong inverse relationship to the individual vaccinations is also present for all 4 vaccines: -0.82 for DTP,
+# -.92 for HepB, -.80 for MMR and -.84 for Polio. 
+
+# The correlation analysis also shows a strong relationship of 0.75 between PctChildPoverty and PctFreeMeal. These variables
+# have weak correlations to all 4 vaccines, ranging from 0.25 to 0.30 for PctFreeMeals and 0.20 to 0.22 for PctChildPoverty.
+# This tells us that if a student in these districts receives free meals, there is good likelyhood that the student
+# is also below the poverty level. 
+
+# Although correlation cannot tell us with absolute certainty that if a student is missing one vaccine he/she
+# is missing all of them, from the low correlation rates between PctChildPoverty and PctFreeMeals to all four vaccines, we can 
+# infer that that these same children likelly have low vaccination rates across the board.
+ 
+scatterplot(x= RevDistrictsVars$PctChildPoverty,
+            y = RevDistrictsVars$PctFreeMeal,
+            main = "% Child Poverty vs % Free Meal")
+
+scatterplot(x= RevDistrictsVars$PctUpToDate, 
+            y = RevDistrictsVars$PctBeliefExempt,
+            main = "% Believe Exempt vs % Up-to-Date")
+
+scatterplot(x= RevDistrictsVars$PctPolio,
+            y = RevDistrictsVars$PctDTP,
+            main = "% Polio vs % DTP ")
+
+
+# Question 5 
+# What variables predict whether or not a district’s reporting was complete?
+
+
+# Grouping the data into two groups
+
+newDist$DistrictComplete[newDist$DistrictComplete == "1"] <- "1" # report is complete
+newDist$DistrictComplete[newDist$DistrictComplete == "2"] <- "0"# report is not complete
+
+newDist$DistrictComplete <- as.numeric(newDist$DistrictComplete) 
+
+# calling required libraries
+
+library(BaylorEdPsych)
+library(car)
+library(MCMCpack)
+library(BEST)
+
+#Logistic Regression
+
+glm_DistrictComplete <- glm(formula = DistrictComplete ~ PctChildPoverty + PctFreeMeal +
+                PctFamilyPoverty + Enrolled + TotalSchools, family = binomial(), data = newDist)
+#Output of Logistic Regression
+summary(glm_DistrictComplete)
+
+# Bayes MCMCLogit
+glm_DistrictCompleteBayes <- MCMClogit(formula=DistrictComplete ~ Enrolled
+                                       + TotalSchools, data=newDist)
+                                   
+summary(glm_DistrictCompleteBayes)
+
+# Plot of MCMCLogit
+plot(glm_DistrictCompleteBayes)
+
+
+
+# Question 6
+#	What variables predict the percentage of all enrolled students with completely up-to-date vaccines?
+
+
+# Linear Regression
+PctUpToDate_lm <- lm(formula = PctUpToDate ~ PctChildPoverty + PctFreeMeal + PctFamilyPoverty + Enrolled
+            + TotalSchools, data = newDist)
+# Output of Linear Regression
+summary(PctUpToDate_lm)
+
+# Test for Multicollinearity
+vif(PctUpToDate_lm)
+
+# Linear Regression after vif()
+PctUpToDate_lm2 <- lm(formula = PctUpToDate ~ PctChildPoverty +PctFreeMeal
+                 + PctFamilyPoverty , data = newDist)
+# Output afeter vif()
+summary(PctUpToDate_lm2)
+
+# Bayes Factor Linear Model
+PctUpToDate_BF <- lmBF(PctUpToDate ~ PctChildPoverty+ 
+                    PctFamilyPoverty, data=newDist,posterior=F)
+summary(PctUpToDate_BF)
+
+
+# Question 7 
+#What variables predict the percentage of all enrolled students with belief exceptions?
+library(BaylorEdPsych)
+# Linear Regression
+PctBeliefExempt_lm <- lm(formula = PctBeliefExempt ~ 
+                           PctChildPoverty + PctFreeMeal + PctFamilyPoverty
+                         + Enrolled + TotalSchools, data = newDist)
+
+# Output Linear Regression
+summary(PctBeliefExempt_lm)
+
+# 2nd Linear Regression
+PctBeliefExempt_lm_2 <- lm(formula = PctBeliefExempt ~ PctChildPoverty +
+                             PctFreeMeal + PctFamilyPoverty,data = newDist)
+
+# Output of 2nd Linear Regression
+summary(PctBeliefExempt_lm_2)
+
+# Test for Multicollinearity
+vif(PctBeliefExempt_lm)
+
+# Bayes Factor Linear Model
+PctBeliefExempt_BF <- lmBF(PctBeliefExempt ~ PctChildPoverty + PctFreeMeal
+
+                            + PctFamilyPoverty, data=newDist,posterior=F)
+#Output of Bayes Factor Linear Model
+summary(BFOut)
+
+
+#Question 8
+#What’s the big picture, based on all of the foregoing analyses?
+#The staff member in the state legislator’s office is interested to know 
+#how to allocate financial assistance to school districts to improve
+#both their vaccination rates and their reporting compliance.
+#What have you learned from the data and analyses that might inform this question?
+
