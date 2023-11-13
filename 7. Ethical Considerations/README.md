@@ -3,7 +3,6 @@
 #### Overview
 
 Welcome to the repository's section dedicated to ethical considerations in data science, particularly within the context of credit risk assessment. This area, formed as part of the IST-718 Big Data course, delves into the crucial role of ethics in the field of data analytics and its application in our final project titled "Optimizing Credit Risk Assessment: Leveraging Customer Segmentation, Fraud Detection, and Default Risk Analysis."
-Key Ethical Aspects
 
 This section highlights the ethical dimensions we navigated while handling sensitive financial data and developing credit risk assessment models. The main ethical considerations included:
 
