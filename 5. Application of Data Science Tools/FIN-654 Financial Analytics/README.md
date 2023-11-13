@@ -1,6 +1,6 @@
 #### FIN-654 Financial Analytics
 
-This file demonstrates skills in using programming languages, particularly R and Python, to make data-driven decisions in finance. Key financial concepts like the Capital Asset Pricing Model and portfolio optimization with advanced machine learning techniques to address complex financial challenges.
+Here I demonstrate skills in using programming languages, particularly R and Python, to make data-driven decisions in finance. Key financial concepts are showcased, like the Capital Asset Pricing Model and portfolio optimization, as well as advanced machine learning techniques to address complex financial challenges.
 
 Python Proficiency for Time Series Data: I became adept at using Python to retrieve, analyze, and extract meaningful insights from time series data related to financial securities.
 Portfolio Optimization: I skillfully utilized Python to optimize investment portfolios based on historical data, significantly improving financial decision-making processes.
