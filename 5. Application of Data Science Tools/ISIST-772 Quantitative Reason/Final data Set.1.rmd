@@ -4,7 +4,7 @@ output:
   html_document: default
   pdf_document: default
 ---
-#IST772 Final Exam 12-20-2022
+#IST772 12-20-2022
 #Sintia Stabel 
 
 ```{r}
