@@ -8,7 +8,7 @@ This collection serves as a comprehensive testament to how the learning objectiv
 
 In this assortment, you will find a range of works that demonstrate extensive deployment of quantitative analytics. These works encompass a rich repertoire of Statistical, Machine Learning, Deep Learning, and Natural Language Processing (NLP) techniques. These methodologies have been applied with precision to tackle a range of tasks, including predictive analytics, risk assessment, and classification. Furthermore, proficiency in wielding a variety of big data management and automation tools, such as Tableau, PowerBI, in addition to commanding programming languages and libraries like SQL, R, and Python, is underscored. These include essential tools like Pandas, NumPy, Matplotlib, Scikit-learn, NLTK, TensorFlow, and PyTorch.
 
-This collection, features 125 commits that encapsulate the rich learning experiences from the program. It is structured into several key sections:
+My rich learning experiences from the program is structured into several key sections:
 
     Data Collection and Management: This section provides insights into my proficiency in gathering, managing, and interpreting data, highlighting the foundational role of data in problem-solving.
 
